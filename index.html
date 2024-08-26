@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Paga tu orden #1223424" />
-    <meta property="og:description" content="Completa tu pago de $50.00 en nuestro sitio tags." />
+    <meta property="og:title" content="Paga tu enlace de pago" />
+    <meta property="og:description" content="Con nuestros nuevos links de pago, puedes completar tus transacciones de manera rápida y segura sin necesidad de iniciar sesión o descargar aplicaciones adicionales. Simplemente haz clic en el enlace que te proporcionamos, verifica los detalles de tu pedido, y realiza el pago en pocos pasos. ¡Es fácil, seguro y conveniente!" />
     <meta property="og:image" content="https://orkestapay.com/wp-content/uploads/2023/12/favicon-150x150.png" />
     <meta property="og:url" content="https://www.orkestapay.com" />
     <meta property="og:type" content="website" />
@@ -14,7 +14,21 @@
     <link rel="apple-touch-icon" href="https://orkestapay.com/wp-content/uploads/2023/12/favicon-300x300.png">
 </head>
 <body>
-    <h1>Paga tu orden #1223424</h1>
-    <p>Completa tu pago de $50.00 en nuestro sitio (Body).</p>
+    <script type="text/javascript">
+        // Espera a que el DOM esté completamente cargado
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obtiene la URL actual
+            var url = new URL(window.location.href);
+            
+            // Extrae el parámetro 'id' de la URL
+            var id = url.searchParams.get('id');
+            
+            if (id) {
+                window.location.href = "https://api.dev.orkestapay.com/public/v1/payment-links/"+encodeURIComponent(id)+"/checkout?merchantId=mch_d20170306c7846a3b9abec8f9d76ed1a";
+            }
+        });
+    </script>
+    <h1>Paga tu enlace de pago</h1>
+    <p>Con nuestros nuevos links de pago, puedes completar tus transacciones de manera rápida y segura sin necesidad de iniciar sesión o descargar aplicaciones adicionales. Simplemente haz clic en el enlace que te proporcionamos, verifica los detalles de tu pedido, y realiza el pago en pocos pasos. ¡Es fácil, seguro y conveniente!.</p>
 </body>
 </html>
