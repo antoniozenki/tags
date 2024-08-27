@@ -1,94 +1,129 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Paga tu enlace de pago" />
-    <meta property="og:description" content="¡Paga rápido y seguro con nuestros nuevos enlaces! Haz clic, verifica tu pedido y completa el pago sin iniciar sesión ni descargar apps" />
-    <meta property="og:image" content="https://orkestapay.com/wp-content/uploads/2023/12/favicon-150x150.png" />
+    <meta property="og:title" content="Enlace de pago" />
+    <meta property="og:description"
+        content="¡Paga rápido y seguro con nuestros nuevos enlaces! Haz clic, verifica tu pedido y completa el pago sin iniciar sesión ni descargar apps" />
+    <meta property="og:image" id="dynamic-meta-image" content="default-image-url.png" />
     <meta property="og:url" content="https://www.orkestapay.com" />
     <meta property="og:type" content="website" />
     <title>OrkestaPay: Links de pago</title>
+
+    <script>
+        // Function to get URL parameter
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Get the 'image' parameter from the URL
+        var imageUrl = getUrlParameter('image');
+
+        // If the parameter exists, update the meta tag
+        if (imageUrl) {
+            document.getElementById('dynamic-meta-image').setAttribute('content', imageUrl);
+        }
+    </script>
+
     <link rel="icon" href="https://orkestapay.com/wp-content/uploads/2023/12/favicon-150x150.png" sizes="32x32">
     <link rel="icon" href="https://orkestapay.com/wp-content/uploads/2023/12/favicon-300x300.png" sizes="192x192">
     <link rel="apple-touch-icon" href="https://orkestapay.com/wp-content/uploads/2023/12/favicon-300x300.png">
-    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&amp;amp;display=swap"/>
-  <style>
-    body {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: center;
-      background-color: #eef4f8;
-      font-family: 'Montserrat', sans-serif;
-      height: 100vh;
-    }
+    <link type="text/css" rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&amp;amp;display=swap" />
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #eef4f8;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+        }
 
-    .container {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: center;
-      background-color: #fff;
-      border-radius: 1.5rem;
-      padding: 2rem;
-      gap: 0.75rem;
-    }
+        .container {
+            width: min(90%, 30rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: .75rem;
+            padding: 1.75rem;
+            text-align: center;
+            border: none;
+            border-radius: 1.35rem;
+            background: #fff;
+            box-shadow: 0 .75rem 1.25rem .625rem #e7eef2;
+        }
 
-    .orkestapay {
-      width: 16rem;
-    }
+        .orkestapay {
+            width: 16rem;
+        }
 
-    .icon {
-      color: #fff;
-      font-size: 5rem;
-      line-height: 4rem;
-      border-radius: 50%;
-      background-color: #e14242;
-      text-align: center;
-      height: 4rem;
-      width: 4rem;
-    }
+        .icon {
+            color: #fff;
+            font-size: 5rem;
+            line-height: 4rem;
+            border-radius: 50%;
+            background-color: #63ab2a;
+            text-align: center;
+            height: 4rem;
+            width: 4rem;
+        }
 
-    .title {
-      font-size: 1.75rem;
-      font-weight: 500;
-      line-height: 2rem;
-      margin-bottom: 0.75rem;
-      margin-top: 0.5rem;
-    }
+        .title {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 2rem;
+            margin-bottom: 0.75rem;
+            margin-top: 0.5rem;
+        }
 
-    .description {
-      color: #616161;
-      font-weight: 400;
-      font-size: 1.15rem;
-      line-height: 1.5rem;
-    }
-
-  </style>
+        .description {
+            color: #616161;
+            font-weight: 400;
+            font-size: 1.15rem;
+            line-height: 1.5rem;
+        }
+    </style>
 </head>
+
 <body>
     <script type="text/javascript">
-        // Espera a que el DOM esté completamente cargado
-        document.addEventListener("DOMContentLoaded", function() {
-            // Obtiene la URL actual
+        document.addEventListener("DOMContentLoaded", function () {
             var url = new URL(window.location.href);
-            
-            // Extrae el parámetro 'id' de la URL
+
             var id = url.searchParams.get('id');
-            
+            var env = url.searchParams.get('env');
+
+            var baseUrl;
+            if (env === 'development') {
+                baseUrl = "https://api.dev.orkestapay.com/public/v1/payment-links/";
+            } else if (env === 'uat') {
+                baseUrl = "https://api.uat.orkestapay.com/public/v1/payment-links/";
+            } else if (env === 'sand') {
+                baseUrl = "https://api.sand.orkestapay.com/public/v1/payment-links/";
+            } else {
+                baseUrl = "https://api.orkestapay.com/public/v1/payment-links/";
+            }
+
             if (id) {
-                window.location.href = "https://api.dev.orkestapay.com/public/v1/payment-links/"+encodeURIComponent(id)+"/checkout";
+                window.location.href = baseUrl + encodeURIComponent(id) + "/checkout";
             }
         });
     </script>
     <main class="container">
         <img class="orkestapay" src="https://resources.orkestapay.com/img/orkestapay-color.svg" alt="OrkestaPay">
-        <section class="icon"></section>
-        <h1 class="title">Paga tu enlace de pago</h1>
+        <h1 class="title">Procesando enlace de pago</h1>
         <section class="description">
-            Con nuestros nuevos links de pago, puedes completar tus transacciones de manera rápida y segura sin necesidad de iniciar sesión o descargar aplicaciones adicionales. Simplemente haz clic en el enlace que te proporcionamos, verifica los detalles de tu pedido, y realiza el pago en pocos pasos. ¡Es fácil, seguro y conveniente!.
+            Con nuestros nuevos links de pago, puedes completar tus transacciones de manera rápida y segura sin necesidad de iniciar sesión o descargar aplicaciones adicionales. ¡Es fácil, seguro y conveniente!.
         </section>
-      </main>
+    </main>
 </body>
+
 </html>
